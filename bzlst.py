@@ -60,6 +60,10 @@ def filter_choices(target_choices, type_choices, user_target, user_type):
 
     return all_choices
 
+def bzlst(build_files, ws_dir, filtered_choices):
+    output_str = [extract_bazel_rules(f, ws_dir, filtered_choices) for f in tqdm(build_files)]
+    flatten_lst = itertools.chain(*output_str)
+    return sorted(flatten_lst)
 
 
 if __name__ == '__main__':
@@ -75,3 +79,5 @@ if __name__ == '__main__':
 
     all_choices = filter_choices(target_choices, rule_choices, args.target, args.rule)
     all_builds = find_build_files(args.ws_dir)
+    final_list = bzlst(all_builds, args.ws_dir, all_choices)
+    print(*final_list, sep='\n')
