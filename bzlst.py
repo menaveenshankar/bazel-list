@@ -1,10 +1,11 @@
 #!/usr/bin/python3
+
 from __future__ import print_function
 import sys
 import re
 import os, glob
 import argparse
-import itertools
+import itertools, functools
 from tqdm import tqdm
 
 colours = ['\033[32m', '\033[34m']
@@ -26,6 +27,7 @@ def extract_rule_name(rule_list):
         except:
             pass
     return result
+
 
 def output_format(rule_name, attrib, filename):
     return '{}: {:30}:  {}'.format(attrib, rule_name, os.path.dirname(filename))
@@ -61,10 +63,14 @@ def filter_choices(target_choices, type_choices, user_target, user_type):
 
     return all_choices
 
+
 def bzlst(build_files, ws_dir, filtered_choices):
     output_str = [extract_bazel_rules(f, ws_dir, filtered_choices) for f in tqdm(build_files)]
     flatten_lst = itertools.chain(*output_str)
-    return sorted(flatten_lst)
+
+    # compare function needed because the string is prefixed with colour codes
+    cmp_fn = lambda x, y: -1 if x[colour_strlen + 1:] <= y[colour_strlen + 1:] else 1
+    return sorted(flatten_lst, key=functools.cmp_to_key(cmp_fn))
 
 
 if __name__ == '__main__':
