@@ -44,6 +44,17 @@ def extract_bazel_rules(filename, ws_dir, options):
     return itertools.chain(*output_display)
 
 
+def filter_choices(target_choices, type_choices, user_target, user_type):
+    all_choices_tuple = itertools.product(target_choices, type_choices)
+    all_choices = ['_'.join(list(x)) for x in all_choices_tuple]
+
+    for choice in [user_target, user_type]:
+        if choice:
+            all_choices = filter(lambda x: choice in x, all_choices)
+
+    return all_choices
+
+
 if __name__ == '__main__':
     target_choices = ['cc', 'py']
     type_choices = ['binary', 'library']
@@ -54,3 +65,7 @@ if __name__ == '__main__':
     parser.add_argument("--target", dest='target', choices=target_choices, required=False)
     parser.add_argument("--type", dest='type', choices=type_choices, required=False)
     args = parser.parse_args()
+
+    all_choices = filter_choices(target_choices, rule_choices, args.target, args.rule)
+    all_builds = find_build_files(args.ws_dir)
+    
