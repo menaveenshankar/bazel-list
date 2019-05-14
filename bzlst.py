@@ -1,5 +1,14 @@
 #!/usr/bin/python3
 
+"""
+Lists all bazel targets (recursively) under a given directory.
+By default, rules of the following type are listed:
+cc_binary, cc_library, cc_test, py_binary, py_library, py_test
+The user, however, can prune the default behaviour with the following options:
+(a) types of rule - {library, binary, test}
+(b) types of target - {cc, py}
+"""
+
 from __future__ import print_function
 import sys
 import re
