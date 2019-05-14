@@ -28,13 +28,14 @@ def find_build_files(path):
 
 
 def extract_rule_name(rule_list):
-    # TODO: check if try catch works within list comprehension in py3
-    result = []
-    for x in rule_list:
+    
+    def _split_rule(x):
         try:
-            result.append(x.split('"')[1])
+            return x.split('"')[1]
         except:
             pass
+    
+    result = [_split_rule(x) for x in rule_list]
     return result
 
 
@@ -45,7 +46,7 @@ def output_format(rule_name, attrib, filename):
 def extract_specific_rule(rule_type, content, option_idx, target_path):
     colour_attrib = lambda x, i: colours[i % len(colours)] + x + default_colour
 
-    # TODO: find a better way to lex+parse, currently super hacky!
+    # TODO: find a better way to lex+parse, currently hacky!
     rules = re.findall('{}{}'.format(rule_type, regex_rule), content)
     rule_names = extract_rule_name(rules)
 
@@ -56,7 +57,7 @@ def extract_specific_rule(rule_type, content, option_idx, target_path):
 
 def extract_bazel_rules(filename, ws_dir, options):
     content = open(filename, 'r').read()
-    target_path = '/' + filename.split(ws_dir)[1]
+    target_path = '/{}'.format(filename.split(ws_dir)[1])
 
     output_display = [extract_specific_rule(opt, content, i, target_path) for i, opt in enumerate(options)]
     return itertools.chain(*output_display)
