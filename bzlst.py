@@ -1,10 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 from __future__ import print_function
 import sys
 import re
 import os, glob
 import argparse
 import itertools
+from tqdm import tqdm
 
 colours = ['\033[32m', '\033[34m']
 default_colour = '\033[0m'
