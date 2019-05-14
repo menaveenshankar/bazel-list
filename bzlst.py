@@ -6,6 +6,9 @@ import os, glob
 import argparse
 import itertools
 
+colours = ['\033[32m', '\033[34m']
+default_colour = '\033[0m'
+colour_strlen = len(default_colour)
 regex_rule = '\(\\n.*'
 
 
@@ -22,6 +25,9 @@ def extract_rule_name(rule_list):
         except:
             pass
     return result
+
+def output_format(rule_name, attrib, filename):
+    return '{}: {:30}:  {}'.format(attrib, rule_name, os.path.dirname(filename))
 
 
 def extract_specific_rule(rule_type, content, option_idx, target_path):
@@ -55,6 +61,7 @@ def filter_choices(target_choices, type_choices, user_target, user_type):
     return all_choices
 
 
+
 if __name__ == '__main__':
     target_choices = ['cc', 'py']
     type_choices = ['binary', 'library']
@@ -68,4 +75,3 @@ if __name__ == '__main__':
 
     all_choices = filter_choices(target_choices, rule_choices, args.target, args.rule)
     all_builds = find_build_files(args.ws_dir)
-    
