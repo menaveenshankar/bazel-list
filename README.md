@@ -7,3 +7,7 @@ main script - bzlst.py
 * run setup.sh (installs tqdm, adds the current directory to PATH)
 * **bzlst** :  its is an 'ls' for bazel rules like cc\_binary, py\_library etc, under a given directory (recursive). It prints the rule's identifier, name, and its path. Run bzlst to see all options
 
+
+## screenshots
+sample output
+![sample_output](sample_output.png)
