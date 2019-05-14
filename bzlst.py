@@ -6,6 +6,10 @@ import os, glob
 import argparse
 
 
+def find_build_files(path):
+    return glob.iglob(path + '/**/BUILD', recursive=True)
+
+
 if __name__ == '__main__':
     target_choices = ['cc', 'py']
     type_choices = ['binary', 'library']
