@@ -3,10 +3,10 @@
 """
 Lists all bazel targets (recursively) under a given directory.
 By default, rules of the following type are listed:
-cc_binary, cc_library, cc_test, py_binary, py_library, py_test
+cc_binary, cc_library, cc_test, py_binary, py_library, py_test, sh_binary, sh_library, sh_test
 The user, however, can prune the default behaviour with the following options:
 (a) types of rule - {library, binary, test}
-(b) types of target - {cc, py}
+(b) types of target - {cc, py,sh}
 """
 
 from __future__ import print_function
@@ -84,8 +84,8 @@ def bzlst(build_files, ws_dir, filtered_choices):
 
 
 if __name__ == '__main__':
-    target_choices = ['cc', 'py']
-    type_choices = ['binary', 'library']
+    target_choices = ['cc', 'py', 'sh']
+    type_choices = ['binary', 'library', 'test']
 
     parser = argparse.ArgumentParser(
         description='List all bazel targets in the format <target_type>: <target name>: <target path>')
